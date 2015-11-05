@@ -15,8 +15,7 @@ theta = 0.5*rand();
 Mrot = [cos(theta) -sin(theta) sin(theta)-cos(theta) ; 
         sin(theta) cos(theta) -sin(theta)+cos(theta);
         -sin(theta) cos(theta) sin(theta)-cos(theta)];
-P2=Mrot*P1*scale+0.05*randn(size(P1));
-
+P2=P1*scale+0.05*randn(size(P1));
 
 %number of used triangles (results can be bad if too low)
 nT=nP1*50;
@@ -37,7 +36,7 @@ end
 
 %generate features
 t1=int32(t1);
-[feat1,feat2] = mexComputeFeature(P1,P2,int32(t1),'simple');
+[feat1,feat2] = mexComputeFeature3D(P1,P2,int32(t1),'simple');
 
 
 %number of nearest neighbors used for each triangle (results can be bad if
@@ -66,11 +65,14 @@ if 1
   imagesc(X2);
   figure(2);
   hold on;
-  plot(P1(1,:),P1(2,:),'r x');
-  plot(P2(1,:),P2(2,:),'b o');
+  plot3(P1(1,:),P1(2,:),P1(3,:),'r x');
+  hold on;
+  plot3(P2(1,:),P2(2,:),P1(3,:),'b o');
+  hold on;
   [tmp match] = max(X2);
   for p=1:nP1
-    plot([P1(1,p),P2(1,match(p))],[P1(2,p),P2(2,match(p))],'k- ');
+    plot3([P1(1,p),P2(1,match(p))],[P1(2,p),P2(2,match(p))],[P1(3,p),P2(3,match(p))],'k- ');
+    hold on;
   end
 end
 

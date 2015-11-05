@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "mexComputeFeature3D.h"
+#include "mexComputeFeature3D.hpp"
 
 
 void mexFunction( int nlhs, mxArray *plhs[], 
