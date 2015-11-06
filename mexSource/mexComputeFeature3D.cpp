@@ -24,7 +24,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
   double* pP2 = oliCheckArg(prhs,P2i,3,&nP2,oliDouble);
   int* pT1 = (int*)oliCheckArg(prhs,t1i,3,&nT1,oliInt);
 
-  const int nFeature=6;
+  const int nFeature=15;
   plhs[feat1i] = mxCreateDoubleMatrix(nFeature, nT1, mxREAL);
   double* pF1 = mxGetPr(plhs[feat1i]);
   plhs[feat2i] = mxCreateDoubleMatrix(nFeature, nP2*nP2*nP2, mxREAL);

@@ -7,7 +7,9 @@ void computeFeature( double* pP1 , int nP1 , double* pP2 , int nP2 ,
 void computeFeature( double* pP1 , int nP1 , double* pP2 , int nP2 ,
                       int* pT1 , int nT1 , double* pF1 , double* pF2)
 { 
-  const int nFeature=3;
+  const int nFeature=15;
+  const int dim=3;
+  const int npoints=3;
   for(int t=0;t<nT1;t++)
   {
     computeFeatureSimple(pP1,pT1[t*3],pT1[t*3+1],pT1[t*3+2],pF1+t*nFeature);
@@ -22,19 +24,20 @@ void computeFeature( double* pP1 , int nP1 , double* pP2 , int nP2 ,
 
 void computeFeatureSimple( double* pP1, int i , int j, int k , double* pF)
 { 
-  const int nFeature=3;
-  double vecX[nFeature];
-  double vecY[nFeature];
-  double vecZ[nFeature];
-  int ind[nFeature];
+  const int nFeature=15;
+  const int npoints=3;
+  double vecX[npoints];
+  double vecY[npoints];
+  double vecZ[npoints];
+  int ind[npoints];
   ind[0]=i;ind[1]=j;ind[2]=k;
   double n;
   if((ind[0]==ind[1])||(ind[0]==ind[2])||(ind[1]==ind[2]))
   {
-    pF[0]=pF[1]=pF[2]=-10;
+    pF[0]=pF[1]=pF[2]=pF[3]=pF[4]=pF[5]=-10;
     return;
   }
-  for(int f=0;f<nFeature;f++)
+  for(int f=0;f<npoints;f++)
   {
     vecX[f]=pP1[ind[((f+1)%3)]*2]-pP1[ind[f]*2];
     vecY[f]=pP1[ind[((f+1)%3)]*2+1]-pP1[ind[f]*2+1];
@@ -50,15 +53,16 @@ void computeFeatureSimple( double* pP1, int i , int j, int k , double* pF)
       vecY[f]=0;
     }
   }
-  for(int f=0;f<nFeature;f++)
+  for(int f=0;f<npoints;f++)
   {
-    double x,y,z;
+     int n=f*5; 
       //cross product get the area of unit vector
-    x=vecX[f]*vecZ[((f+1)%3)]-vecX[((f+1)%3)]*vecZ[f];
-    y=vecY[f]*vecX[((f+1)%3)]-vecY[((f+1)%3)]*vecX[f];
-    z=vecY[f]*vecZ[((f+1)%3)]-vecY[((f+1)%3)]*vecZ[f];
-    pF[f] = x*x+y*y+z*z;
+    pF[n]=vecX[f]*vecZ[((f+1)%3)]-vecX[((f+1)%3)]*vecZ[f];
+    pF[n+1]=vecY[f]*vecX[((f+1)%3)]-vecY[((f+1)%3)]*vecX[f];
+    pF[n+2]=vecY[f]*vecZ[((f+1)%3)]-vecY[((f+1)%3)]*vecZ[f];
+    
     //features: unit vector and Z axis[0 0 1] triangle area 
-    pF[f+D]=vecX[f]*vecX[f]+vecY[f]+vecY[f]*vecY[f] ;
+    pF[n+3]=vecX[f];
+    pF[n+4]=vecY[f];
   }
 }

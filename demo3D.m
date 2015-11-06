@@ -64,7 +64,6 @@ if 1
   figure(1);
   imagesc(X2);
   figure(2);
-  hold on;
   plot3(P1(1,:),P1(2,:),P1(3,:),'r x');
   hold on;
   plot3(P2(1,:),P2(2,:),P1(3,:),'b o');
